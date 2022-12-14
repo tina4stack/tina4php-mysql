@@ -54,6 +54,8 @@ class MySQLExec extends DataConnection implements DataBaseExec
      * Gets the param type
      * @param $param
      * @return string
+     * @tests
+     *   assert('072654332111' 's')
      */
     private function getParamType($param): string
     {

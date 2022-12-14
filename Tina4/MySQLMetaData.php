@@ -44,7 +44,7 @@ class MySQLMetaData extends DataConnection implements DataBaseMetaData
     final public function getForeignKeys(string $tableName): array
     {
         return $this->getConnection()->fetch("SELECT 
-                                  COLUMN_NAME as field_name,
+                                  COLUMN_NAME as field_name
                             FROM  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
                            WHERE  REFERENCED_TABLE_SCHEMA = '".$this->getConnection()->databaseName."' 
                              AND TABLE_NAME = '$tableName'")->asObject();
