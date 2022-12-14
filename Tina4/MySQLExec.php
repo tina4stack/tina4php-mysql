@@ -62,20 +62,17 @@ class MySQLExec extends DataConnection implements DataBaseExec
         $paramType = "s";
 
         if (!$this->isBinary($param)) {
+
             if (is_int($param)) {
                 $paramType = "i";
             } elseif (is_array($param)) {
                 if (array_key_exists(0, $param)) {
                     $paramType = (($param[0] !== "0") ? "d" : "s");
-                } else {
-                    $paramType = "s";
-                }
-
-                if ($param[0] !== '+' && $param[0] !== '-') {
-                    $paramType = "d";
                 }
             } elseif ($param !== '' && is_numeric($param) && !empty($param)) {
-                $paramType = "d";
+                if (!is_string($param)  ) {
+                    $paramType = "d";
+                }
             }
         }
 

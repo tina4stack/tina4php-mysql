@@ -14,10 +14,31 @@ class DataMySQLTest extends TestCase
     public $connectionString;
     public $DBA;
 
+    public static function callMethod($obj, $name, array $args) {
+        $class = new \ReflectionClass($obj);
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+        return $method->invokeArgs($obj, $args);
+    }
+
     final public function setUp(): void
     {
         $this->connectionString = "127.0.0.1/33306:testing";
         $this->DBA = new \Tina4\DataMySQL($this->connectionString, "root", "pass1234");
+    }
+
+    final public function testParamTypes(): void
+    {
+        $mysqlExec = new \Tina4\MySQLExec($this->DBA);
+        $string = "0836464535";
+        $this->assertEquals("s", $this->callMethod( $mysqlExec, "getParamType", [$string]), "Broken string param type");
+
+        $string = 836464535;
+        $this->assertEquals("i", $this->callMethod( $mysqlExec, "getParamType", [$string]), "Broken string param type");
+
+        $string = 80.20;
+        $this->assertEquals("d", $this->callMethod( $mysqlExec, "getParamType", [$string]), "Broken string param type");
+
     }
 
     final public function testOpen(): void
@@ -77,4 +98,6 @@ class DataMySQLTest extends TestCase
         $this->assertArrayHasKey("testing", $database);
         $this->assertArrayHasKey("sub_testing", $database);
     }
+
+
 }

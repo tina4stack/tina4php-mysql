@@ -202,4 +202,12 @@ class DataMySQL implements DataBase
         return false;
     }
 
+    /**
+     * Get short name for the database migrations
+     * @return string
+     */
+    public function getShortName(): string
+    {
+        return "mysql";
+    }
 }
