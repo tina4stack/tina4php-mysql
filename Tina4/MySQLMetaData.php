@@ -75,6 +75,14 @@ class MySQLMetaData extends DataConnection implements DataBaseMetaData
         }
 
         foreach ($columns as $columnIndex => $columnData) {
+            if ($columnData->numericPrecision === null) {
+                $columnData->numericPrecision = "0";
+            }
+
+            if ($columnData->characterMaximumLength === null) {
+                $columnData->characterMaximumLength = "0";
+            }
+
             $fieldData = new \Tina4\DataField(
                 $columnIndex,
                 trim($columnData->columnName),
