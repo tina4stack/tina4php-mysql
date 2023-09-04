@@ -59,7 +59,7 @@ class DataMySQL implements DataBase
         $params = $this->parseParams(func_get_args());
         $params = $params["params"];
 
-        if (stripos($params[0], "call") !== false) {
+        if (stripos($params[0], "call ") !== false) {
             return $this->fetch($params[0]);
         }
 
