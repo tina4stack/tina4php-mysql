@@ -2,3 +2,5 @@
 /vendor/
 /tests/junit.xml
 /phpmetrics/
+/docker/data/
+/docker/certs/

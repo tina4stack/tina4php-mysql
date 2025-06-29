@@ -11,7 +11,7 @@ require_once "./Tina4/DataMySQL.php";
 
 class DataMySQLTest extends TestCase
 {
-    public $connectionString;
+    public string $connectionString;
     public $DBA;
 
     public static function callMethod($obj, $name, array $args) {
@@ -23,8 +23,8 @@ class DataMySQLTest extends TestCase
 
     final public function setUp(): void
     {
-        $this->connectionString = "127.0.0.1/33306:testing";
-        $this->DBA = new \Tina4\DataMySQL($this->connectionString, "root", "pass1234");
+        $this->connectionString = "127.0.0.1/33066:test";
+        $this->DBA = new \Tina4\DataMySQL($this->connectionString, "root", "pass1234", "YYYY-mm-dd", "utf8mb4", "./docker/certs/ca.crt" );
     }
 
     final public function testParamTypes(): void
