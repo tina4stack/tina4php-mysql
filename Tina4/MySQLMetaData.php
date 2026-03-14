@@ -12,6 +12,8 @@ namespace Tina4;
  */
 class MySQLMetaData extends DataConnection implements DataBaseMetaData
 {
+    use DataBaseMetaDataHelper;
+
     /**
      * Gets all the tables for a database schema
      * @return array
@@ -68,11 +70,8 @@ class MySQLMetaData extends DataConnection implements DataBaseMetaData
 
         $columns = $this->getConnection()->fetch($sqlInfo, 10000)->asObject();
 
-        $foreignKeys = $this->getForeignKeys($tableName);
-        $foreignKeyLookup = [];
-        foreach ($foreignKeys as $foreignKey) {
-            $foreignKeyLookup[$foreignKey->fieldName] = true;
-        }
+        $keyLookups = $this->buildKeyLookups($tableName);
+        $foreignKeyLookup = $keyLookups['foreign'];
 
         foreach ($columns as $columnIndex => $columnData) {
             if ($columnData->numericPrecision === null) {
@@ -116,21 +115,4 @@ class MySQLMetaData extends DataConnection implements DataBaseMetaData
         return $tableInformation;
     }
 
-    /**
-     * Gets the complete database metadata
-     * @return array
-     */
-    final public function getDatabaseMetaData(): array
-    {
-        $database = [];
-        $tables = $this->getTables();
-
-        foreach ($tables as $record) {
-            $tableInfo = $this->getTableInformation($record->tableName);
-
-            $database[strtolower($record->tableName)] = $tableInfo;
-        }
-
-        return $database;
-    }
 }
