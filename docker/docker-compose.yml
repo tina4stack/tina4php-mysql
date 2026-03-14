@@ -3,6 +3,7 @@
 services:
   mysql:
     image: mysql:latest
+    hostname: localhost
     volumes:
       - ./data:/var/lib/mysql
       - ./certs:/etc/mysql/certs

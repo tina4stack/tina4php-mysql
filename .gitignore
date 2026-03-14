@@ -4,3 +4,5 @@
 /phpmetrics/
 /docker/data/
 /docker/certs/
+.phpunit.cache
+.claude/

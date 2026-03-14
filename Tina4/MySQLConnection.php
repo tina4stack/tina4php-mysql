@@ -7,7 +7,6 @@
 
 namespace Tina4;
 
-use MongoDB\BSON\PackedArray;
 use mysqli_sql_exception;
 
 /**
@@ -36,18 +35,13 @@ class MySQLConnection
             if (file_exists($certificateFile))
             {
                 $this->connection = mysqli_init();
-
-                //if (DIRECTORY_SEPARATOR === "\\")
-                //{
-                    $this->connection->options(MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT, true);
-                    $this->connection->ssl_set(null, null, $certificateFile, null, null);
-                //}
-                
+                $this->connection->options(MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT, true);
+                $this->connection->ssl_set(null, null, $certificateFile, null, null);
                 mysqli_real_connect($this->connection, $hostName, $username, $password, $databaseName, $port);
                 $this->connection->set_charset($charset);
-
             } else {
-                throw new mysqli_sql_exception('MySQL certificate file does not exist');
+                $this->connection = new \mysqli($hostName, $username, $password, $databaseName, $port);
+                $this->connection->set_charset($charset);
             }
         } catch (mysqli_sql_exception $e) {
             throw new \Exception (" {
